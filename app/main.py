@@ -6,7 +6,8 @@ from app.agents.knowledge_graph import KnowledgeGraphAgent
 from app.agents.verification import VerificationAgent
 from app.agents.analysis import AnalysisAgent
 from app.agents.decision_planner import DecisionPlannerAgent
-
+import os
+import uvicorn
 app = FastAPI(
     title="NAMYA - AI Technology & Product Design Agent Ecosystem",
     version="3.0",
@@ -60,3 +61,6 @@ def execute_ecosystem_pipeline(data: ProjectInput):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port)    

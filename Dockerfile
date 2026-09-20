@@ -7,5 +7,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Cloud Run dynamically PORT environment variable pass karta hai
-CMD exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}
+# Explicitly bind to 0.0.0.0 and the dynamic PORT provided by Cloud Run
+CMD python -c "import os, uvicorn; uvicorn.run('app.main:app', host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))"
